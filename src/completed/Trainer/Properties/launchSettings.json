@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Trainer": {
+      "commandName": "Project",
+      "workingDirectory": "$(MSBuildProjectDirectory)"
+    }
+  }
+}

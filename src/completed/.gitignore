@@ -1,0 +1,7 @@
+bin/
+obj/
+.ionide/
+.vs/
+
+# Output of the trainer
+Website/GithubClassifier.zip
