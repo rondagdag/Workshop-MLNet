@@ -4,16 +4,17 @@ using System.Threading.Tasks;
 using GithubIssueClassifier.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.ML;
 
 namespace Website.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly GithubIssueLabeler _githubIssueLabeler;
+        private readonly PredictionEnginePool<GithubIssue, GithubIssuePrediction> _predictionEnginePool;
 
-        public IndexModel(GithubIssueLabeler githubIssueLabeler)
+        public IndexModel(PredictionEnginePool<GithubIssue, GithubIssuePrediction> predictionEnginePool)
         {
-            _githubIssueLabeler = githubIssueLabeler;
+            _predictionEnginePool = predictionEnginePool;
         }
 
         public class InputForm
@@ -38,7 +39,10 @@ namespace Website.Pages
                 Description = Input.Description
             };
 
-            var prediction = _githubIssueLabeler.PredictLabel(issue);
+            var prediction = _predictionEnginePool.Predict(
+                modelName: "GithubIssueClassifier",
+                example: issue);
+
             PredictedArea = prediction.Area;
 
             return Page();

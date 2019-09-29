@@ -8,23 +8,31 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.ML;
 
 namespace Website
 {
     public class Startup
     {
+
+        private IHostingEnvironment Environment { get; }
+
+        public Startup(IHostingEnvironment environment)
+        {
+            Environment = environment;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<GithubIssueLabeler>(provider =>
-            {
-                var hostingEnvironment = provider.GetRequiredService<IHostingEnvironment>();
-                var modelPath = Path.Join(hostingEnvironment.WebRootPath, "GithubClassifier.zip");
 
-                return new GithubIssueLabeler(modelPath);
-            });
+            var modelFilePath = Path.Combine(Environment.ContentRootPath, "GithubClassifier.zip");
+
+            services
+                .AddPredictionEnginePool<GithubIssue, GithubIssuePrediction>()
+                .FromFile(modelName: "GithubIssueClassifier", filePath: modelFilePath);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
