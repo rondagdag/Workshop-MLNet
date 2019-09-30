@@ -54,9 +54,9 @@ Next, add the following code to the top of the `Startup` class in `Startup.cs`
 in the `Website` project:
 
 ``` csharp
-private IHostingEnvironment Environment { get; }
+private IHostEnvironment Environment { get; }
 
-public Startup(IHostingEnvironment environment)
+public Startup(IHostEnvironment environment)
 {
     Environment = environment;
 }
