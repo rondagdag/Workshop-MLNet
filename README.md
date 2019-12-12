@@ -31,7 +31,7 @@ Please clone this repository to disk for the best experience during the
 tutorial. It includes the solution files as well as some starter files.
 
 ```
-git clone https://github.com/GlobalAICommunity/Workshop-MLNet.git
+git clone https://github.com/rondagdag/Workshop-MLNet.git
 ```
 
 After cloning the repository, start with the 
